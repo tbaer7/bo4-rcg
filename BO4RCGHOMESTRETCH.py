@@ -10,10 +10,12 @@ from random import randint
 
 #random_integer = random.randint(1, 10)  # Generates a random integer between 1 and 10 (inclusive)
 
+# List containing all Specialists
 specialists=['Ajax', 'Torque', 'Battery', 'Reaper', 'Spectre', 'Ruin', 'Outrider', 'Prophet', 'Firebreak', 'Zero', 'Crash', 'Nomad', 'Seraph', 'Recon']
 chosenSpecialist = specialists[random.randint(0,len(specialists)-1)]
 #print(chosenSpecialist)
 
+# List of lists containing all Primary Weapons by category (AR, SMG, Tac Rifle, LMG, Sniper Rifle)
 primaries = [['ICR-7','Rampart 17', 'KN-57', 'VAPR-XKG', 'Maddox RFB', 'SWAT RFT', 'Grav', 'Peacekeeper', 'AN-94', 'Doublecross'], ['MX9', 'GKS', 'Spitfire', 'Cordite','Saug 9MM', 'Daemon 3XB', 'Switchblade X9','VMP', 'MicroMG 9MM'], ['Auger DMR', 'ABR 223', 'Swordfish', 'S6 Stingray', 'M16' ], ['Titan','Hades', 'VKM 750', 'Tigershark'], ['Paladin HB50', 'Outlaw', 'SDM', 'Koshka', 'Vendetta', 'Locus', 'Havelina AA50']]
 #a=random.randint(0,len(primaries)-1)
 # = primaries[a]
@@ -21,7 +23,7 @@ primaries = [['ICR-7','Rampart 17', 'KN-57', 'VAPR-XKG', 'Maddox RFB', 'SWAT RFT
 #print(a,b,c)
 #chosenPrimary = b[c]
 
-
+# List of lists containing all Secondary Weapons by category (Pistol, Shotgun, Rocket Launcher, Special, Melee)
 secondaries=[['RK7 Garrison', 'Strife', 'Mozu', 'Kap 45'], ['MOG 12', 'Argus', 'Rampage', 'SG12'], ['Hellion Salvo'], ['Ballistic Knife', 'Reaver C86'], ['Combat Knife']]
 #d=random.randint(0,len(secondaries)-1)
 #e= secondaries[d]
@@ -29,6 +31,7 @@ secondaries=[['RK7 Garrison', 'Strife', 'Mozu', 'Kap 45'], ['MOG 12', 'Argus', '
 #print(d,e,f)
 #chosenSecondary = e[f]
 
+# Dictionary containing all Optics by weapon
 optics=    {'ICR-7': ['Reflex', 'Recon','Holographic', 'Dual Zoom', 'Threat Detector', 'NVIR'],
              'Rampart 17': ['Reflex', 'Recon','Holographic', 'Dual Zoom', 'Threat Detector'],
              'KN-57': ['Reflex', 'Recon','Holographic', 'ELO'],
@@ -77,6 +80,7 @@ optics=    {'ICR-7': ['Reflex', 'Recon','Holographic', 'Dual Zoom', 'Threat Dete
              'Ballistic Knife': [],
              'Reaver C86': ['Compact Scope']}
 
+# Dictionary containing all Attachments by weapon
 attachments={'ICR-7': ['Grip', 'FMJ', 'Quickdraw', 'Laser Sight', 'Grip II', 'Long Barrel'],
              'Rampart 17': ['High Caliber', 'High Caliber II', 'FMJ', 'FMJ 2', 'Long Barrel', 'Grip', 'Fast Mags'],
              'KN-57': ['Hybrid Mags', 'Quickdraw', 'Laser Sight', 'Grip', 'Stock', 'Extended Mags', 'Rapid Fire', 'Suppressor'],
@@ -125,6 +129,7 @@ attachments={'ICR-7': ['Grip', 'FMJ', 'Quickdraw', 'Laser Sight', 'Grip II', 'Lo
              'Ballistic Knife': ['Extra Blades', 'Fast Reload', 'Gas Powered'],
              'Reaver C86': ['Stock', 'Extended Mags', 'Titanium Bolts']}
 
+# Dictionary containing all Operator Mods by Primary Weapon
 primaryOperatorMods = {'VAPR-XKG': 'Bayonet',
                 'Maddox RFB': 'Echo Fire',
                 'GKS': 'Quad Shot',
@@ -143,13 +148,14 @@ primaryOperatorMods = {'VAPR-XKG': 'Bayonet',
                 'Koshka': 'Strelok',
                 'Vendetta': 'Bipod'}
 
-
+# Dictionary containing all Operator Mods by Secondary Weapon
 secondaryOperatorMods={'Strife': 'Stiletto Knife',
                 'Mozu': 'Skull Splitter',
                 'MOG 12': 'Dragon Breath',
                 'SG12': 'Strobe Light',
                 'Ballistic Knife': 'Dual Wield'}
 
+# Dictionary containing names of functions for each Wildcard
 wildcard_methods = {
     'Overkill': 'overkillFunct',
     'Underkill': 'underkillFunct',
@@ -169,21 +175,32 @@ wildcard_methods = {
     'Secondary Operator Mod': 'secondaryOperatorModFunct'
 }
 
+# List containing all Gears
 gear = ['Stim Shot', 'Acoustic Sensor', 'Body Armor', 'Equipment Charge', 'COMSEC Device']
+# Choose Gear
 chosenGear = gear[random.randint(0,len(gear)-1)]
 
-
+# List containing all Perk 1s
 Perk1=['Scavenger ', 'Engineer ', 'Flak Jacket ', 'Tactical Mask ']
-Perk2=['Leightweight ', 'Skulker ', 'Cold Blooded ', 'Gung Ho ', 'Dexterity ']
-Perk3=['Ghost ', 'Team Link ', 'Dead Silence ', 'Tracker ']
-
+# Choose Perk 1
 chosenPerk1 = Perk1[random.randint(0,len(Perk1)-1)]
+
+# List containing all Perk 2s
+Perk2=['Leightweight ', 'Skulker ', 'Cold Blooded ', 'Gung Ho ', 'Dexterity ']
+# Choose Perk 2
 chosenPerk2 = Perk2[random.randint(0,len(Perk2)-1)]
+
+# List containing all Perk 3s
+Perk3=['Ghost ', 'Team Link ', 'Dead Silence ', 'Tracker ']
+# Choose Perk 3
 chosenPerk3 = Perk3[random.randint(0,len(Perk3)-1)]
 
-
+# "amount" variable indicates how much of the Equipment to use
 amount=0
+
+# List containing all Equipments
 equipment = ['Trophy System', 'Combat Axe', 'Frag', 'Molotov', 'Concussion']
+# Choose Equipment
 chosenEquipment = equipment[random.randint(0,len(equipment)-1)]
 if chosenEquipment in ('Trophy System','Combat Axe','Concussion'):
     amount = random.randint(1,2) 
@@ -191,41 +208,52 @@ else:
     amount = 1
 
 
-
+# List containing Scorestreaks in the Class
 chosenScorestreaks=[]
+
+# List containing all Scorestreaks
 streaks = ["Dart", "RC-XD", "UAV", "Care Package", "Counter-UAV", "Lightning Strike", "Sentry","Hellstorm", "Drone Squad", "Sniper's Nest", "Mantis", "Thresher", "Attack Chopper", "Strike Team", "Gunship"]
+# Choose Scorestreaks
 scorestreakNumbers=random.sample(range(0,len(streaks)),3)
 sortedStreaks = sorted(scorestreakNumbers)
 #print(sortedStreaks)
 for i in sortedStreaks:
+    # Add Scorestreaks to the Class
     chosenScorestreaks.append(streaks[i])
 
+# Choose number of items to be in Class
 pick10 = random.randint(0, 10)
 #pick10 = 10
 print(pick10)
 
-
+# List containing all Wildcards
 wildcards = ['Overkill', 'Primary Gunfighter 1', 'Primary Operator Mod', 'Perk 1 Gluttony', 'Perk 2 Gluttony',
              'Perk 3 Gluttony', 'Underkill', 'Secondary Gunfighter 1', 'Secondary Operator Mod', 'Perk 1 Greed',
              'Perk 2 Greed', 'Perk 3 Greed']
 
+# Dictionary containing how many items will be added to the Class by Wildcard
 wildcardMinimums = {'Overkill': 3, 'Primary Gunfighter 1': 5, 'Primary Operator Mod': 4, 'Perk 1 Gluttony': 4,
                     'Perk 2 Gluttony': 4, 'Perk 3 Gluttony': 4, 'Underkill': 3, 'Secondary Operator Mod': 4,
                     'Primary Gunfighter 2': 2, 'Primary Gunfighter 3': 2, 'Secondary Gunfighter 2': 2,
                     'Secondary Gunfighter 3': 2, 'Perk 1 Greed': 3, 'Perk 2 Greed': 3, 'Perk 3 Greed': 3,
                     'Secondary Gunfighter 1': 5}
 
+# Choose how many Wildcards will be in the Class
 numOfWildcards = random.randint(0, 3)
 #numOfWildcards = 3
 print(numOfWildcards)
+
+# Choose numbers representing indices of Wildcards in "wildcards" 
 tacotuesday = random.sample(range(0, len(wildcards)), numOfWildcards)
 sortedTacos = sorted(tacotuesday)
 print(sortedTacos)
 
 print('')
 
+# List of Wildcards to add to the Class
 chosenWildcards = []
 
+# Lists containing Wildcards that are incompatible with selected Wildcard
 removeForGluttony1 = ['Perk 2 Gluttony', 'Perk 3 Gluttony', 'Perk 2 Greed', 'Perk 3 Greed']
 removeForGluttony2 = ['Perk 1 Gluttony', 'Perk 3 Gluttony', 'Perk 1 Greed', 'Perk 3 Greed']
 removeForGluttony3 = ['Perk 1 Gluttony', 'Perk 2 Gluttony', 'Perk 1 Greed', 'Perk 2 Greed']
@@ -233,18 +261,27 @@ removeForGreed1 = ['Perk 2 Gluttony', 'Perk 3 Gluttony']
 removeForGreed2 = ['Perk 1 Gluttony', 'Perk 3 Gluttony']
 removeForGreed3 = ['Perk 1 Gluttony', 'Perk 2 Gluttony']
 
+# "x" represents how many items each Wildcard in the Class adds?
 x = []
+# Sum of number of items added from all wildcards
 wildcardCost = 0
 
+# for each number (representing the index of a Wildcard) 
 for yur in sortedTacos:
+    # Rechoose index number?
     yur=random.randint(0,len(wildcards)-1)
+    # Add Wildcard to the Class
     chosenWildcards.append(wildcards[yur])
+    # Update number of items added from Wildcard
     wildcardCost += wildcardMinimums[chosenWildcards[-1]]
+    # Add number of items the Wildcard adds to the list
     x.append(wildcardMinimums[chosenWildcards[-1]])
     print(chosenWildcards)
     print(wildcardCost)
     print(x)
+    # "flip" represents ??
     flip=0
+    
     
     if len(chosenWildcards)==2 and (chosenWildcards.count('Primary Gunfighter 1') +
     chosenWildcards.count('Overkill') +
