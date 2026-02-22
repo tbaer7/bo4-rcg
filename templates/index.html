@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Black Ops 4: Random Class Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #eee;
+            text-align: center;
+            padding-top: 40px;
+        }
+
+        button {
+            padding: 12px 22px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .class-box {
+            margin-top: 30px;
+            font-size: 18px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+
+        ul {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Black Ops 4: Random Class Generator</h1>
+
+    <form action="/generate">
+        <button type="submit">Generate Class</button>
+    </form>
+
+    {% if class_data %}
+    <div class="class-box">
+        <p><strong>Primary Weapon:</strong> {{ class_data["Primary Weapon"] }}</p>
+
+        <p><strong>Primary Attachments:</strong></p>
+        <ul>
+            {% for attachment in class_data["Primary Attachments"] %}
+                <li>{{ attachment }}</li>
+            {% endfor %}
+        </ul>
+
+        <p><strong>Secondary Weapon:</strong> {{ class_data["Secondary Weapon"] }}</p>
+
+        <p><strong>Perk 1:</strong> {{ class_data["Perk 1"] }}</p>
+        <p><strong>Perk 2:</strong> {{ class_data["Perk 2"] }}</p>
+        <p><strong>Perk 3:</strong> {{ class_data["Perk 3"] }}</p>
+
+        <p><strong>Gear:</strong> {{ class_data["Gear"] }}</p>
+
+        <p><strong>Wildcards:</strong></p>
+        <ul>
+            {% for wildcard in class_data["Wildcards"] %}
+                <li>{{ wildcard }}</li>
+            {% endfor %}
+        </ul>
+
+        <p><strong>Scorestreaks:</strong></p>
+        <ul>
+            {% for streak in class_data["Scorestreaks"] %}
+                <li>{{ streak }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+</body>
+</html>

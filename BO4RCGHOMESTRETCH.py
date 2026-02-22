@@ -652,7 +652,7 @@ class rcg:
     def __init__(self, loadout):
        
         self.loadout = loadout
-    
+
         self.primary = self.loadout.primary
         self.primaryAttachments = self.loadout.primaryAttachments
         self.primaryOptic = None
@@ -831,6 +831,44 @@ class rcg:
                 pick10 -=1
         return self.perk3, pick10
     
+    # Added based on bug when trying to generate class on web page
+    def primaryGunfighter1Funct(self):
+        if self.primary == None   :
+            a=random.randint(0,len(primaries)-1)
+            b = primaries[a]
+            c= random.randint(0,len(b)-1)
+            self.primary = b[c]
+        self.primaryAttachments = random.sample(attachments[self.primary], 3)
+        return self.primary, self.primaryAttachments
+    def primaryGunfighter2Funct (self):
+        if len(attachments[self.primary])>=4:
+            self.primaryAttachments=random.sample(attachments[self.primary], 4)
+            return self.primaryAttachments
+        else:
+            print("ERROR ERROR ERROR NOT ENOUGH ATTACHMENTS")
+    def primaryGunfighter3Funct (self):
+        if len(attachments[self.primary])>=5:
+            return random.sample(attachments[self.primary], 5)
+        else:
+            print("ERROR ERROR ERROR NOT ENOUGH ATTACHMENTS")
+            
+    
+    
+    def secondaryGunfighter1Funct (self):
+        if self.secondary == None:
+            a=random.randint(0,len(secondaries)-1)
+            b = secondaries[a]
+            c= random.randint(0,len(b)-1)
+            self.secondary = b[c]
+        self.secondaryAttachments = random.sample(attachments[self.secondary], 3)
+        return self.secondary, self.secondaryAttachments
+    def secondaryGunfighter2Funct (self):
+        self.secondaryAttachments = random.sample(attachments[self.secondary], 4)
+        return self.secondary, self.secondaryAttachments
+    def secondaryGunfighter3Funct (self):
+        self.secondaryAttachments = random.sample(attachments[self.secondary], 5)
+        return self.secondary, self.secondaryAttachments
+    
 #print(loadout1.rcg())
 
 print('                          ')
@@ -946,13 +984,14 @@ def generate_class():
     jake_rcg.primaryGunfighter2Funct()
     jake_rcg.primaryGunfighter3Funct()
 
-    jake_rcg.secondaryFunct()
+    # Added "pick10" to each function call, the functions need it as a parameter
+    jake_rcg.secondaryFunct(pick10)
 
-    jake_rcg.perk1Funct()
-    jake_rcg.perk2Funct()
-    jake_rcg.perk3Funct()
+    jake_rcg.perk1Funct(pick10)
+    jake_rcg.perk2Funct(pick10)
+    jake_rcg.perk3Funct(pick10)
 
-    jake_rcg.gearFunct()
+    jake_rcg.gearFunct(pick10)
 
     chosenWildcards = jake_rcg.wildcardList
     chosenScorestreaks = jake_rcg.scorestreakList
