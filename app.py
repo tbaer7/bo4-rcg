@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from BO4RCGHOMESTRETCH import generate_class
+from class_generator import generate_class       # change from XX to what the class generator file is
 
 app = Flask(__name__)
 

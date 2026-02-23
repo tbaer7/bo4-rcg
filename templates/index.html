@@ -43,6 +43,8 @@
 
     {% if class_data %}
     <div class="class-box">
+        <!--Number of Items:</strong> {{ class_data["Number of Items"] }} -->
+        
         <p><strong>Primary Weapon:</strong> {{ class_data["Primary Weapon"] }}</p>
 
         <p><strong>Primary Attachments:</strong></p>
@@ -54,11 +56,20 @@
 
         <p><strong>Secondary Weapon:</strong> {{ class_data["Secondary Weapon"] }}</p>
 
+        <p><strong>Secondary Attachments:</strong></p>
+        <ul>
+            {% for attachment in class_data["Secondary Attachments"] %}
+                <li>{{ attachment }}</li>
+            {% endfor %}
+        </ul>
+
         <p><strong>Perk 1:</strong> {{ class_data["Perk 1"] }}</p>
         <p><strong>Perk 2:</strong> {{ class_data["Perk 2"] }}</p>
         <p><strong>Perk 3:</strong> {{ class_data["Perk 3"] }}</p>
 
         <p><strong>Gear:</strong> {{ class_data["Gear"] }}</p>
+
+        <p><strong>Equipment:</strong> {{ class_data["Equipment"] }}</p>
 
         <p><strong>Wildcards:</strong></p>
         <ul>
@@ -66,6 +77,8 @@
                 <li>{{ wildcard }}</li>
             {% endfor %}
         </ul>
+
+        <p><strong>Specialist:</strong> {{ class_data["Specialist"] }}</p>
 
         <p><strong>Scorestreaks:</strong></p>
         <ul>
