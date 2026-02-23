@@ -63,8 +63,8 @@ optics=    {'ICR-7': ['Reflex', 'Recon','Holographic', 'Dual Zoom', 'Threat Dete
                 'Rampage': ['Reflex'],
                 'Argus': ['Reflex', 'ELO'],
                 'Hellion Salvo': ['Fast Lock'],
-                'Combat Knife': [],
-                'Ballistic Knife': [],
+                'Combat Knife': None,
+                'Ballistic Knife': None,
                 'Reaver C86': ['Compact Scope']}
 
     # Dictionary containing all Attachments by weapon
@@ -113,7 +113,7 @@ attachments={'ICR-7': ['Grip', 'FMJ', 'Quickdraw', 'Laser Sight', 'Grip II', 'Lo
             'Rampage': ['Stock', 'Quickdraw', 'Grip', 'Hybrid Mags', 'Stock II', 'Quickdraw II', 'Grip II', 'Max Load'],
             'Argus': ['Quickdraw', 'Long Barrel', 'Fast Mags', 'Rapid Fire', 'Stock', 'Suppressor', 'Extended Mags'],
             'Hellion Salvo': ['Rocket Cache', 'Fast Loader', 'High Explosive'],
-            'Combat Knife': [],
+            'Combat Knife': None,
             'Ballistic Knife': ['Extra Blades', 'Fast Reload', 'Gas Powered'],
             'Reaver C86': ['Stock', 'Extended Mags', 'Titanium Bolts']}
 # Dictionary containing all Operator Mods by Primary Weapon
@@ -584,6 +584,8 @@ class rcg:
     # Initialize attributes of the class
     def __init__(self):
        
+        self.pick10 = random.randint(0,10)
+
         self.primary = None
         self.primaryAttachments = []
         self.primaryOptic = None
@@ -592,7 +594,7 @@ class rcg:
         self.secondaryOptic = None
         self.wildcards = []
         self.gear = None
-        self.equipment = []
+        self.equipment = None
         self.perk1 = None
         self.perk2 = None
         self.perk3 = None
@@ -612,227 +614,168 @@ class rcg:
         return self.specialist
     
     # Define function to pick equipment
-    def equipmentFunct(self, pick10):
-        if pick10 == 0:
-            self.equipment = None
-        if pick10 == 1:
-            amount=1
-            equipment = ['Trophy System', 'Combat Axe', 'Frag', 'Molotov', 'Concussion']
-            self.equipment = equipment[random.randint(0,len(equipment)-1)]
-            pick10 -= amount
-        if pick10 >1:
-            amount=0
-            equipment = ['Trophy System', 'Combat Axe', 'Frag', 'Molotov', 'Concussion']
-            self.equipment = equipment[random.randint(0,len(equipment)-1)]
+    def equipmentFunct(self):
+        if self.pick10 == 1:
+            amount = 1
+            self.equipment = random.choice(equipment)
+            self.pick10 -= amount
+        if self.pick10 > 1:
+            self.equipment = random.choice(equipment)
             if self.equipment in ('Trophy System','Combat Axe','Concussion'):
                 amount = random.randint(1,2) 
             else:
                 amount = 1
-            pick10 -= amount
+            self.pick10 -= amount
             self.equipment = f'{amount} {self.equipment}'
-            if amount==2:
+            if amount == 2:
                 self.equipment += 's'
-        return self.equipment, pick10
+        return self.equipment
     
     # Define function to pick gear
-    def gearFunct(self,pick10):
-        if pick10>=1:
+    def gearFunct(self):
+        if self.pick10 >= 1:
             self.gear = random.choice(gear)
-            pick10 -= 1
-        return self.gear, pick10
+            self.pick10 -= 1
+        return self.gear
 
     ###### PRIMARY WEAPON FUNCTIONS
 
     # Define function to pick primary weapon    
-    def primaryFunct(self,pick10):
+    def primaryFunct(self):
         if self.primary == None:
-            if pick10 >0:
-                a=random.randint(0,len(primaries)-1)
+            if self.pick10 > 0:
+                a = random.randint(0, len(primaries)-1)
                 b = primaries[a]
-                c= random.randint(0,len(b)-1)
+                c = random.randint(0, len(b)-1)
                 self.primary = b[c]
-                pick10 -=1
-        return self.primary, pick10
+                self.pick10 -= 1
+        return self.primary
     
     # Define function to pick primary weapon optic
-    def primaryOpticFunct (self,pick10):
+    def primaryOpticFunct(self):
         if self.primary in ('Ballistic Knife', 'Combat Knife'):
-            pick10 = pick10
-            return self.primaryOptic, pick10
-        if self.primary == None:
-            if pick10>=2:
-                a=random.randint(0,len(primaries)-1)
-                b = primaries[a]
-                c= random.randint(0,len(b)-1)
-                self.primary = b[c]
-                self.primaryOptic = random.choice(optics[self.primary])
-                pick10 -=2
-        else: 
-            if pick10>=1:
-                self.primaryOptic = random.choice(optics[self.primary])
-                pick10 -=1
-        return self.primaryOptic, pick10
+            return self.primaryOptic
+        if self.pick10 >= 1 and self.primary != None:
+            self.primaryOptic = random.choice(optics[self.primary])
+            self.pick10 -= 1
+        return self.primaryOptic
     
     # Define function to pick primary weapon attachments
-    def primaryAttachmentsFunct (self,pick10):
+    def primaryAttachmentsFunct(self):
         if self.primary == 'Combat Knife':
-            self.primaryAttachments = []
-            return self.primary, self.primaryAttachments, self.primaryOptic, pick10
-        if self.primary == None:
-            if pick10 >=3:
-                a=random.randint(0,len(primaries)-1)
-                b = primaries[a]
-                c= random.randint(0,len(b)-1)
-                self.primary = b[c]
-                self.primaryAttachments = random.sample(attachments[self.primary], 2)
-                pick10 -=3
-            elif pick10 >= 2:
-                a=random.randint(0,len(primaries)-1)
-                b = primaries[a]
-                c= random.randint(0,len(b)-1)
-                self.primary = b[c]
-                self.primaryAttachments = random.choice(attachments[self.primary])
-                pick10 -=2
-        else:
-            if pick10 >=2: 
-                self.primaryAttachments = random.sample(attachments[self.primary], 2)
-                pick10 -=2
-            elif pick10 >=1:
-                self.primaryAttachments = random.sample(attachments[self.primary],1)
-                pick10 -=1
-        return self.primary, self.primaryAttachments, self.primaryOptic, pick10
+            return self.primaryAttachments
+        if self.pick10 >= 2 and self.primary != None: 
+            num_attachments = random.randint(0,2)
+            self.primaryAttachments = random.sample(attachments[self.primary], num_attachments)
+            self.pick10 -= num_attachments
+        elif self.pick10 >= 1 and self.primary != None:
+            num_attachments = random.randint(0,1)
+            self.primaryAttachments = random.sample(attachments[self.primary], num_attachments)
+            self.pick10 -= num_attachments
+        return self.primaryAttachments
     
     ###### SECONDARY WEAPON FUNCTIONS
 
     # Define function to pick secondary weapon
-    def secondaryFunct(self,pick10):
+    def secondaryFunct(self):
         if self.secondary == None:
-            if pick10>0:
-                d=random.randint(0,len(secondaries)-1)
-                e= secondaries[d]
+            if self.pick10 > 0:
+                d = random.randint(0, len(secondaries)-1)
+                e = secondaries[d]
                 f = random.randint(0, len(e)-1)
                 self.secondary = e[f]
-                pick10-=1
-        return self.secondary, pick10
+                self.pick10 -= 1
+        return self.secondary
     
     # Define function to pick secondary weapon optic
-    def secondaryOpticFunct (self,pick10):
+    def secondaryOpticFunct(self):
         if self.secondary in ('Ballistic Knife', 'Combat Knife'):
-            pick10 = pick10
-            return self.secondaryOptic, pick10
-        if self.secondary == None:
-            if pick10>=2:
-                a=random.randint(0,len(secondaries)-1)
-                b = secondaries[a]
-                c= random.randint(0,len(b)-1)
-                self.secondary = b[c]
-                self.secondaryOptic = random.choice(optics[self.secondary])
-                pick10 -=2
-        else:
-            if pick10>=1:
-                self.secondaryOptic = random.choice(optics[self.secondary])
-                pick10 -=1
-        return self.secondaryOptic, pick10
+            return self.secondaryOptic
+        if self.pick10 >= 1 and self.secondary != None:
+            self.secondaryOptic = random.choice(optics[self.secondary])
+            self.pick10 -= 1
+        return self.secondaryOptic
     
     # Define function to pick secondary weapon attachments
-    def secondaryAttachmentsFunct (self,pick10):
+    def secondaryAttachmentsFunct(self):
         if self.secondary == 'Combat Knife':
-            self.secondaryAttachments = []
-            return self.secondary, self.secondaryAttachments, self.secondaryOptic, pick10
-        if self.secondary == None:
-            if pick10 >=3:
-                a=random.randint(0,len(secondaries)-1)
-                b = secondaries[a]
-                c= random.randint(0,len(b)-1)
-                self.secondary = b[c]
-                self.secondaryAttachments = random.sample(attachments[self.secondary], 2)
-                pick10 -=3
-            elif pick10 >= 2:
-                a=random.randint(0,len(secondaries)-1)
-                b = secondaries[a]
-                c= random.randint(0,len(b)-1)
-                self.secondary = b[c]
-                self.secondaryAttachments = random.choice(attachments[self.secondary])
-                pick10 -=2
-        else:
-            if pick10 >=2: 
-                self.secondaryAttachments = random.sample(attachments[self.secondary], 2)
-                pick10 -=2
-            elif pick10 >=1:
-                self.primaryAttachments = random.sample(attachments[self.secondary], 1)
-                pick10 -=1
-        return self.secondary, self.secondaryAttachments, self.secondaryOptic, pick10
+            return self.secondaryAttachments
+        if self.pick10 >= 1 and self.secondary != None: 
+            num_attachments = random.randint(0,1)
+            self.secondaryAttachments = random.sample(attachments[self.secondary], num_attachments)
+            self.pick10 -= num_attachments
+        return self.secondaryAttachments
     
     ###### PERK FUNCTIONS
     
     # Define function to pick perk 1
-    def perk1Funct (self,pick10):
+    def perk1Funct(self):
         if self.perk1 == None:
-            if pick10>=1:
-                self.perk1 = Perk1[random.randint(0,len(Perk1)-1)]
-                pick10 -=1
-        return self.perk1, pick10
+            if self.pick10 >= 1:
+                self.perk1 = random.choice(Perk1)
+                self.pick10 -= 1
+        return self.perk1
     
     # Define function to pick perk 2
-    def perk2Funct (self,pick10):
+    def perk2Funct(self):
         if self.perk2 == None:
-            if pick10>= 1:
-                self.perk2 = Perk2[random.randint(0,len(Perk2)-1)]
-                pick10 -=1
-        return self.perk2, pick10
+            if self.pick10 >= 1:
+                self.perk2 = random.choice(Perk2)
+                self.pick10 -= 1
+        return self.perk2
     
     # Define function to pick perk 3
-    def perk3Funct (self,pick10):
+    def perk3Funct(self):
         if self.perk3 == None:
-            if pick10>= 1:
-                self.perk3 = Perk3[random.randint(0,len(Perk3)-1)]
-                pick10 -=1
-        return self.perk3, pick10
+            if self.pick10 >= 1:
+                self.perk3 = random.choice(Perk3)
+                self.pick10 -= 1
+        return self.perk3
     
     ###### WILDCARD FUNCTIONS
 
     # Define function to pick primary weapon attachments with primary gunfighter 1 wildcard
     def primaryGunfighter1Funct(self):
-        if self.primary == None   :
-            a=random.randint(0,len(primaries)-1)
+        if self.primary == None:
+            a =random.randint(0, len(primaries)-1)
             b = primaries[a]
-            c= random.randint(0,len(b)-1)
+            c = random.randint(0, len(b)-1)
             self.primary = b[c]
         self.primaryAttachments = random.sample(attachments[self.primary], 3)
         return self.primary, self.primaryAttachments
     
     # Define function to pick primary weapon attachments with primary gunfighter 2 wildcard
-    def primaryGunfighter2Funct (self):
-        if len(attachments[self.primary])>=4:
-            self.primaryAttachments=random.sample(attachments[self.primary], 4)
+    def primaryGunfighter2Funct(self):
+        if len(attachments[self.primary]) >= 4:
+            self.primaryAttachments = random.sample(attachments[self.primary], 4)
             return self.primaryAttachments
         else:
             print("ERROR ERROR ERROR NOT ENOUGH ATTACHMENTS")
     
     # Define function to pick primary weapon attachments with primary gunfighter 3 wildcard
-    def primaryGunfighter3Funct (self):
-        if len(attachments[self.primary])>=5:
+    def primaryGunfighter3Funct(self):
+        if len(attachments[self.primary]) >= 5:
             return random.sample(attachments[self.primary], 5)
         else:
             print("ERROR ERROR ERROR NOT ENOUGH ATTACHMENTS")
             
     # Define function to pick secondary weapon attachments with secondary gunfighter 1 wildcard
-    def secondaryGunfighter1Funct (self):
+    def secondaryGunfighter1Funct(self):
         if self.secondary == None:
-            a=random.randint(0,len(secondaries)-1)
+            a =random.randint(0, len(secondaries)-1)
             b = secondaries[a]
-            c= random.randint(0,len(b)-1)
+            c = random.randint(0, len(b)-1)
             self.secondary = b[c]
         self.secondaryAttachments = random.sample(attachments[self.secondary], 2 if len(attachments[self.secondary]) > 1 else 0)    # may not need if statement once other pick10 logic is implemented
         return self.secondary, self.secondaryAttachments
     
     # Define function to pick secondary weapon attachments with secondary gunfighter 2 wildcard
-    def secondaryGunfighter2Funct (self):
+    def secondaryGunfighter2Funct(self):
         self.secondaryAttachments = random.sample(attachments[self.secondary], 3 if len(attachments[self.secondary]) > 2 else 0)    # may not need if statement once other pick10 logic is implemented
         return self.secondary, self.secondaryAttachments
     
     # Define function to pick secondary weapon attachments with secondary gunfighter 3 wildcard
-    def secondaryGunfighter3Funct (self):
+    def secondaryGunfighter3Funct(self):
         self.secondaryAttachments = random.sample(attachments[self.secondary], 4 if len(attachments[self.secondary]) > 3 else 0)    # may not need if statement once other pick10 logic is implemented
         return self.secondary, self.secondaryAttachments
     
@@ -849,28 +792,28 @@ class rcg:
     # Define function to pick perk 2s with perk 2 gluttony wildcard  
     def perk2GluttonyFunct(self):
         global Perk2
-        gluts2=random.sample(Perk2,3)
-        self.perk1=gluts2[0]
-        self.perk2=gluts2[1]
-        self.perk3=gluts2[2]
+        gluts2 = random.sample(Perk2, 3)
+        self.perk1 = gluts2[0]
+        self.perk2 = gluts2[1]
+        self.perk3 = gluts2[2]
         Perk2 = [u for u in Perk2 if u not in gluts2]
         return [self.perk1, self.perk2, self.perk3]
     
     # Define function to pick perk 3s with perk 3 gluttony wildcard
     def perk3GluttonyFunct(self):
         global Perk3
-        gluts3=random.sample(Perk3,3)
-        self.perk1=gluts3[0]
-        self.perk2=gluts3[1]
-        self.perk3=gluts3[2]
-        Perk3=[u for u in Perk3 if u not in gluts3]
+        gluts3 = random.sample(Perk3, 3)
+        self.perk1 = gluts3[0]
+        self.perk2 = gluts3[1]
+        self.perk3 = gluts3[2]
+        Perk3 = [u for u in Perk3 if u not in gluts3]
         return [self.perk1, self.perk2, self.perk3]
     
     # Define function to pick perk 1s with perk 1 greed wildcard
     def perk1GreedFunct(self):
         global Perk1
         if self.perk1 == []:
-            self.perk1=random.sample(Perk1,2)
+            self.perk1 = random.sample(Perk1, 2)
         else:
             random1 = random.randint(0, len(Perk1)-1)
             self.perk1 = self.perk1 + 'and ' + (Perk1[random1])
@@ -880,7 +823,7 @@ class rcg:
     def perk2GreedFunct(self):
         global Perk2
         if self.perk2 == []:
-            self.perk2=random.sample(Perk2,2)
+            self.perk2 = random.sample(Perk2, 2)
         else:
             random2 = random.randint(0, len(Perk2)-1)
             self.perk2 = self.perk2 + 'and ' + (Perk2[random2])
@@ -890,41 +833,41 @@ class rcg:
     def perk3GreedFunct(self):
         global Perk3
         if self.perk3 == []:
-            self.perk3=random.sample(Perk3,2)
+            self.perk3 = random.sample(Perk3, 2)
         else:
             random3 = random.randint(0, len(Perk3)-1)
             self.perk3 = self.perk3 + 'and ' + (Perk3[random3])
         return self.perk3
     
     # Define function to pick primary and secondary weapons with overkill wildcard
-    def overkillFunct (self):
-        a=random.randint(0,len(primaries)-1)
+    def overkillFunct(self):
+        a = random.randint(0, len(primaries)-1)
         b = primaries[a]
-        c= random.randint(0,len(b)-1)
+        c = random.randint(0, len(b)-1)
         self.primary = b[c]
-        a=random.randint(0,len(primaries)-1)
+        a = random.randint(0, len(primaries)-1)
         b = primaries[a]
-        c= random.randint(0,len(b)-1)
+        c = random.randint(0, len(b)-1)
         self.secondary = b[c]
         while self.secondary == self.primary:
-             a=random.randint(0,len(primaries)-1)
+             a = random.randint(0, len(primaries)-1)
              b = primaries[a]
-             c= random.randint(0,len(b)-1)   
+             c = random.randint(0, len(b)-1)   
         return self.primary, self.secondary
 
     # Define function to pick primary and secondary weapons with underkill wildcard
-    def underkillFunct (self):
-        d=random.randint(0,len(secondaries)-1)
-        e= secondaries[d]
+    def underkillFunct(self):
+        d = random.randint(0, len(secondaries)-1)
+        e = secondaries[d]
         f = random.randint(0, len(e)-1)
         self.primary= e[f]
-        d=random.randint(0,len(secondaries)-1)
-        e= secondaries[d]
+        d = random.randint(0, len(secondaries)-1)
+        e = secondaries[d]
         f = random.randint(0, len(e)-1)
         self.secondary= e[f]
         while self.primary == self.secondary:
-            d=random.randint(0,len(secondaries)-1)
-            e= secondaries[d]
+            d = random.randint(0, len(secondaries)-1)
+            e = secondaries[d]
             f = random.randint(0, len(e)-1)
         return self.primary, self.secondary
     
@@ -1041,36 +984,34 @@ def generate_class():
     # Initialize class
     jake_rcg = rcg()
 
-    # Generate number of items to be in class
-    pick10 = random.randint(1,10)
-    #num_items = pick10
+    #num_items = self.pick10
 
     # Choose primary weapon
-    jake_rcg.primary, pick10 = jake_rcg.primaryFunct(pick10)
+    jake_rcg.primary = jake_rcg.primaryFunct()
 
     # Choose secondary weapon
-    jake_rcg.secondary, pick10 = jake_rcg.secondaryFunct(pick10)
+    jake_rcg.secondary = jake_rcg.secondaryFunct()
 
     # Choose perk 1
-    jake_rcg.perk1, pick10 = jake_rcg.perk1Funct(pick10)
+    jake_rcg.perk1 = jake_rcg.perk1Funct()
 
     # Choose perk 2
-    jake_rcg.perk2, pick10 = jake_rcg.perk2Funct(pick10)
+    jake_rcg.perk2 = jake_rcg.perk2Funct()
 
     # Choose perk 3
-    jake_rcg.perk3, pick10 = jake_rcg.perk3Funct(pick10)
+    jake_rcg.perk3 = jake_rcg.perk3Funct()
 
     # Choose gear
-    jake_rcg.gear, pick10 = jake_rcg.gearFunct(pick10)
+    jake_rcg.gear = jake_rcg.gearFunct()
 
     # Choose equipment
-    jake_rcg.equipment, pick10 = jake_rcg.equipmentFunct(pick10)
+    jake_rcg.equipment = jake_rcg.equipmentFunct()
 
     # Choose primary weapon attachments
-    jake_rcg.primary, jake_rcg.primaryAttachments, jake_rcg.primaryOptic, pick10 = jake_rcg.primaryAttachmentsFunct(pick10)
+    jake_rcg.primaryAttachments = jake_rcg.primaryAttachmentsFunct()
 
     # Choose secondary weapon attachments
-    jake_rcg.secondary, jake_rcg.secondaryAttachments, jake_rcg.secondaryOptic, pick10 = jake_rcg.secondaryAttachmentsFunct(pick10)
+    jake_rcg.secondaryAttachments = jake_rcg.secondaryAttachmentsFunct()
 
     jake_rcg.scorestreaks = jake_rcg.scorestreaksFunct()
 
@@ -1079,8 +1020,10 @@ def generate_class():
     return {
         #"Number of Items": #num_items,
         "Primary Weapon": jake_rcg.primary,
+        "Primary Optic": jake_rcg.primaryOptic,
         "Primary Attachments": jake_rcg.primaryAttachments,
         "Secondary Weapon": jake_rcg.secondary,
+        "Secondary Optic": jake_rcg.secondaryOptic,
         "Secondary Attachments": jake_rcg.secondaryAttachments,
         "Perk 1": jake_rcg.perk1,
         "Perk 2": jake_rcg.perk2,
