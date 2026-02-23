@@ -698,7 +698,7 @@ class rcg:
                 self.primaryAttachments = random.sample(attachments[self.primary], 2)
                 pick10 -=2
             elif pick10 >=1:
-                self.primaryAttachments = random.choice(attachments[self.primary])
+                self.primaryAttachments = random.sample(attachments[self.primary],1)
                 pick10 -=1
         return self.primary, self.primaryAttachments, self.primaryOptic, pick10
     
@@ -759,7 +759,7 @@ class rcg:
                 self.secondaryAttachments = random.sample(attachments[self.secondary], 2)
                 pick10 -=2
             elif pick10 >=1:
-                self.primaryAttachments = random.choice(attachments[self.secondary])
+                self.primaryAttachments = random.sample(attachments[self.secondary], 1)
                 pick10 -=1
         return self.secondary, self.secondaryAttachments, self.secondaryOptic, pick10
     
