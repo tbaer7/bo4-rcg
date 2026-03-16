@@ -113,7 +113,7 @@ attachments={'ICR-7': ['Grip', 'FMJ', 'Quickdraw', 'Laser Sight', 'Grip II', 'Lo
             'Rampage': ['Stock', 'Quickdraw', 'Grip', 'Hybrid Mags', 'Stock II', 'Quickdraw II', 'Grip II', 'Max Load'],
             'Argus': ['Quickdraw', 'Long Barrel', 'Fast Mags', 'Rapid Fire', 'Stock', 'Suppressor', 'Extended Mags'],
             'Hellion Salvo': ['Rocket Cache', 'Fast Loader', 'High Explosive'],
-            'Combat Knife': None,
+            'Combat Knife': [], # unsure if this should be None or []
             'Ballistic Knife': ['Extra Blades', 'Fast Reload', 'Gas Powered'],
             'Reaver C86': ['Stock', 'Extended Mags', 'Titanium Bolts']}
 # Dictionary containing all Operator Mods by Primary Weapon
@@ -143,11 +143,11 @@ secondaryOperatorMods={'Strife': 'Stiletto Knife',
 # List containing all Gears
 gear = ['Stim Shot', 'Acoustic Sensor', 'Body Armor', 'Equipment Charge', 'COMSEC Device']
 # List containing all Perk 1s
-Perk1=['Scavenger ', 'Engineer ', 'Flak Jacket ', 'Tactical Mask ']
+Perk1=['Scavenger', 'Engineer', 'Flak Jacket', 'Tactical Mask']
 # List containing all Perk 2s
-Perk2=['Leightweight ', 'Skulker ', 'Cold Blooded ', 'Gung Ho ', 'Dexterity ']
+Perk2=['Lightweight', 'Skulker', 'Cold Blooded', 'Gung Ho', 'Dexterity']
 # List containing all Perk 3s
-Perk3=['Ghost ', 'Team Link ', 'Dead Silence ', 'Tracker ']
+Perk3=['Ghost', 'Team Link', 'Dead Silence', 'Tracker']
 # List containing all Equipments
 equipment = ['Trophy System', 'Combat Axe', 'Frag', 'Molotov', 'Concussion']
 # List containing all Scorestreaks
@@ -205,8 +205,8 @@ class rcg:
         self.perk1 = []
         self.perk2 = []
         self.perk3 = []
-        self.gear = None
-        self.equipment = None
+        self.gear = []
+        self.equipment = []
         self.wildcards = []
         self.specialist = None
         self.scorestreaks = []
@@ -225,24 +225,24 @@ class rcg:
     def equipmentFunct(self):
         if self.pick10 == 1:
             amount = 1
-            self.equipment = random.choice(equipment)
+            self.equipment = [random.choice(equipment)]
             self.pick10 -= amount
         if self.pick10 > 1:
-            self.equipment = random.choice(equipment)
+            self.equipment = [random.choice(equipment)]
             if self.equipment in ('Trophy System','Combat Axe','Concussion'):
                 amount = random.randint(1,2) 
             else:
                 amount = 1
             self.pick10 -= amount
-            self.equipment = f'{amount} {self.equipment}'
-            if amount == 2:
-                self.equipment += 's'
+            self.equipment = self.equipment * amount
+            #if amount == 2:
+            #    self.equipment += 's'
         return self.equipment
     
     # Define function to pick gear
     def gearFunct(self):
         if self.pick10 >= 1:
-            self.gear = random.choice(gear)
+            self.gear = [random.choice(gear)]
             self.pick10 -= 1
         return self.gear
 
@@ -320,7 +320,7 @@ class rcg:
     def perk1Funct(self):
         if self.perk1 == None:
             if self.pick10 >= 1:
-                self.perk1 = random.choice(Perk1)
+                self.perk1 = [random.choice(Perk1)]
                 self.pick10 -= 1
         return self.perk1
     
@@ -328,7 +328,7 @@ class rcg:
     def perk2Funct(self):
         if self.perk2 == None:
             if self.pick10 >= 1:
-                self.perk2 = random.choice(Perk2)
+                self.perk2 = [random.choice(Perk2)]
                 self.pick10 -= 1
         return self.perk2
     
@@ -336,7 +336,7 @@ class rcg:
     def perk3Funct(self):
         if self.perk3 == None:
             if self.pick10 >= 1:
-                self.perk3 = random.choice(Perk3)
+                self.perk3 = [random.choice(Perk3)]
                 self.pick10 -= 1
         return self.perk3
     
@@ -344,7 +344,8 @@ class rcg:
 
     # Define function to choose wildcards
     def wildcardsFunct(self):
-        global wildcards
+        wildcards = ['Overkill', 'Primary Gunfighter 1', 'Primary Operator Mod', 'Perk 1 Gluttony', 'Perk 2 Gluttony', 'Perk 3 Gluttony', 'Underkill', 'Secondary Gunfighter 1', 'Secondary Operator Mod', 'Perk 1 Greed', 'Perk 2 Greed', 'Perk 3 Greed']
+        #global wildcards
         # Choose how many Wildcards will be in the Class
         numOfWildcards = random.randint(0, 3)
 
@@ -371,7 +372,7 @@ class rcg:
         # for each number (representing the index of a Wildcard) 
         for yur in sortedTacos:
 
-            wildcards = ['Overkill', 'Primary Gunfighter 1', 'Primary Operator Mod', 'Perk 1 Gluttony', 'Perk 2 Gluttony','Perk 3 Gluttony', 'Underkill', 'Secondary Gunfighter 1', 'Secondary Operator Mod', 'Perk 1 Greed','Perk 2 Greed', 'Perk 3 Greed']
+            # wildcards = ['Overkill', 'Primary Gunfighter 1', 'Primary Operator Mod', 'Perk 1 Gluttony', 'Perk 2 Gluttony','Perk 3 Gluttony', 'Underkill', 'Secondary Gunfighter 1', 'Secondary Operator Mod', 'Perk 1 Greed','Perk 2 Greed', 'Perk 3 Greed']
             # Rechoose index number?
             yur = random.randint(0, len(wildcards)-1)
             # Add Wildcard to the Class
@@ -522,7 +523,7 @@ class rcg:
     # Define function to pick secondary weapon attachments with secondary gunfighter 1 wildcard
     def secondaryGunfighter1Funct(self):
         if self.secondary == None:
-            a =random.randint(0, len(secondaries)-1)
+            a = random.randint(0, len(secondaries)-1)
             b = secondaries[a]
             c = random.randint(0, len(b)-1)
             self.secondary = b[c]
@@ -541,62 +542,68 @@ class rcg:
     
     # Define function to pick perk 1s with perk 1 gluttony wildcard
     def perk1GluttonyFunct(self):
-        Perk1=['Scavenger ', 'Engineer ', 'Flak Jacket ', 'Tactical Mask ']
+        Perk1 = ['Scavenger', 'Engineer', 'Flak Jacket', 'Tactical Mask']
         gluts1 = random.sample(Perk1, 3)
-        self.perk1 = gluts1[0]
-        self.perk2 = gluts1[1]
-        self.perk3 = gluts1[2]
+        self.perk1 = [gluts1[0]]
+        self.perk2 = [gluts1[1]]
+        self.perk3 = [gluts1[2]]
         Perk1 = [u for u in Perk1 if u not in gluts1]
         return self.perk1, self.perk2, self.perk3
     
     # Define function to pick perk 2s with perk 2 gluttony wildcard  
     def perk2GluttonyFunct(self):
-        Perk2=['Leightweight ', 'Skulker ', 'Cold Blooded ', 'Gung Ho ', 'Dexterity ']
+        Perk2 = ['Lightweight', 'Skulker', 'Cold Blooded', 'Gung Ho', 'Dexterity']
         gluts2 = random.sample(Perk2, 3)
-        self.perk1 = gluts2[0]
-        self.perk2 = gluts2[1]
-        self.perk3 = gluts2[2]
+        self.perk1 = [gluts2[0]]
+        self.perk2 = [gluts2[1]]
+        self.perk3 = [gluts2[2]]
         Perk2 = [u for u in Perk2 if u not in gluts2]
         return self.perk1, self.perk2, self.perk3
     
     # Define function to pick perk 3s with perk 3 gluttony wildcard
     def perk3GluttonyFunct(self):
-        Perk3=['Ghost ', 'Team Link ', 'Dead Silence ', 'Tracker ']
+        Perk3 = ['Ghost', 'Team Link', 'Dead Silence', 'Tracker']
         gluts3 = random.sample(Perk3, 3)
-        self.perk1 = gluts3[0]
-        self.perk2 = gluts3[1]
-        self.perk3 = gluts3[2]
+        self.perk1 = [gluts3[0]]
+        self.perk2 = [gluts3[1]]
+        self.perk3 = [gluts3[2]]
         Perk3 = [u for u in Perk3 if u not in gluts3]
         return self.perk1, self.perk2, self.perk3
     
     # Define function to pick perk 1s with perk 1 greed wildcard
     def perk1GreedFunct(self):
-        Perk1=['Scavenger ', 'Engineer ', 'Flak Jacket ', 'Tactical Mask ']
+        Perk1 = ['Scavenger', 'Engineer', 'Flak Jacket', 'Tactical Mask']
         if self.perk1 == []:
             self.perk1 = random.sample(Perk1, 2)
         else:
-            random1 = random.randint(0, len(Perk1)-1)
-            self.perk1 = self.perk1 + 'and ' + (Perk1[random1])
+            random1 = random.choice(Perk1)
+            while random1 in self.perk1:
+                random1 = random.choice(Perk1)
+            self.perk1 = self.perk1 + [random1]
         return self.perk1
     
     # Define function to pick perk 2s with perk 2 greed wildcard
     def perk2GreedFunct(self):
-        Perk2=['Leightweight ', 'Skulker ', 'Cold Blooded ', 'Gung Ho ', 'Dexterity ']
+        Perk2 = ['Lightweight', 'Skulker', 'Cold Blooded', 'Gung Ho', 'Dexterity']
         if self.perk2 == []:
             self.perk2 = random.sample(Perk2, 2)
         else:
-            random2 = random.randint(0, len(Perk2)-1)
-            self.perk2 = self.perk2 + 'and ' + (Perk2[random2])
+            random2 = random.choice(Perk2)
+            while random2 in self.perk2:
+                random2 = random.choice(Perk2)
+            self.perk2 = self.perk2 + [random2]
         return self.perk2
     
     # Define function to pick perk 3s with perk 3 greed wildcard
     def perk3GreedFunct(self):
-        Perk3=['Ghost ', 'Team Link ', 'Dead Silence ', 'Tracker ']
+        Perk3=['Ghost', 'Team Link', 'Dead Silence', 'Tracker']
         if self.perk3 == []:
             self.perk3 = random.sample(Perk3, 2)
         else:
-            random3 = random.randint(0, len(Perk3)-1)
-            self.perk3 = self.perk3 + 'and ' + (Perk3[random3])
+            random3 = random.choice(Perk3)
+            while random3 in self.perk3:
+                random3 = random.choice(Perk3)
+            self.perk3 = self.perk3 + [random3]
         return self.perk3
     
     # Define function to pick primary and secondary weapons with overkill wildcard
@@ -635,15 +642,15 @@ class rcg:
     def primaryOperatorModFunct(self):
         if self.primary not in list(primaryOperatorMods.keys()):
             self.primary = random.choice(list(primaryOperatorMods.keys()))
-        self.operatorMod1 = primaryOperatorMods[self.primary]
-        return self.primary, self.operatorMod1
+        self.primaryOperatorMod = primaryOperatorMods[self.primary]
+        return self.primary, self.primaryOperatorMod
     
     # Define function to pick secondary weapon operator mod
     def secondaryOperatorModFunct(self):
         if self.secondary not in list(secondaryOperatorMods.keys()):
             self.secondary = random.choice(list(secondaryOperatorMods.keys()))
-        self.operatorMod2 = secondaryOperatorMods[self.secondary]
-        return self.secondary, self.operatorMod2
+        self.secondaryOperatorMod = secondaryOperatorMods[self.secondary]
+        return self.secondary, self.secondaryOperatorMod
     
     ###### SPEND REMAINING ITEMS
     def spendRemainingPick10(self):
@@ -671,7 +678,7 @@ class rcg:
                 before = self.pick10
 
                 if slot in ('perk1', 'perk2', 'perk3'):
-                    setattr(self, slot, random.choice(eval(slot.capitalize())))
+                    setattr(self, slot, [random.choice(eval(slot.capitalize()))])
                     self.pick10 -= 1
 
             
@@ -706,21 +713,21 @@ class rcg:
                     self.pick10 -= 1
 
                 elif slot == 'gear':
-                    chosen_gear = random.choice(gear)
+                    chosen_gear = [random.choice(gear)]
                     setattr(self, slot, chosen_gear)
                     self.pick10 -= 1
 
                 elif slot == 'equipment':
                     items = ['Trophy System', 'Combat Axe', 'Frag', 'Molotov', 'Concussion']
-                    item = random.choice(items)
+                    item = [random.choice(items)]
 
                     if item in ('Trophy System', 'Combat Axe', 'Concussion'):
                         amount = random.randint(1, min(2, self.pick10))
                     else:
                         amount = 1
 
-                    equipment_text = f"{amount} {item}" + ("s" if amount == 2 else "")
-                    setattr(self, slot, equipment_text)
+                    #equipment_text = f"{amount} {item}" + ("s" if amount == 2 else "")
+                    setattr(self, slot, item * amount)
                     self.pick10 -= amount
 
                 # Track progress 
@@ -783,7 +790,27 @@ def generate_class():
 #NO OPTICS ARE RETURNING AT ALL!
 
 
-#########################################     BUGS     ################################################33
+#########################################     BUGS     ################################################
+
+# may be issues with 'removeFor...', thus incompatible wildcards are still being selected together
+
+# may be issues with same wildcard being chosen twice
+
+# may be issue with primary operator mod and secondary operator mod if chose with overkill or underkill, functions are specific to the weapon type (primary vs. secondary), may be better to merge dictionaries of operator mods and update functions accordingly
+
+# perk greed and perk gluttony wildcards don't keep track of which perks have been chosen by each function, causing the same perk to be chosen twice
+
+# primary and secondary gunfighter 2/3 not in wildcards list??
+
+#### seems to be only bug crashing the script
+# may be issue in secondary gunfighter 2 (and others?) (possibly primary as well), 'attachments[self.secondary]' throws 'KeyError: None', maybe for weapons with 0 or 1 attachment only?
+
+
+
+
+
+#################### UNSURE IF STILL BUGS ###########################
+
 # no other class needed just need to feed class named rcg
 
 # issues with how wildcards remove incompatible ones from potential list

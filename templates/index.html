@@ -46,48 +46,108 @@
         <!--Number of Items:</strong> {{ class_data["Number of Items"] }} -->
         
         <p><strong>Primary Weapon:</strong> {{ class_data["Primary Weapon"] }}</p>
+        
+        {% if class_data["Primary Weapon"] %}
+            <img src="{{ url_for('static', filename='weapon-images/' + class_data["Primary Weapon"] + '.webp') }}" alt="{{ class_data["Primary Weapon"] }}" style="width:250px;height:auto;">
 
-        <p><strong>Primary Optic:</strong> {{ class_data["Primary Optic"] }}</p>
+            <p><strong>Primary Optic:</strong> {{ class_data["Primary Optic"] }}</p>
 
-        <p><strong>Primary Attachments:</strong></p>
-        <ul>
-            {% for attachment in class_data["Primary Attachments"] %}
-                <li>{{ attachment }}</li>
-            {% endfor %}
-        </ul>
+            <p><strong>Primary Attachments:</strong></p>
+            <ul>
+                {% for attachment in class_data["Primary Attachments"] %}
+                    <li>{{ attachment }}</li>
+                {% endfor %}
+            </ul>
+
+            {% if class_data["Primary Operator Mod"] %}
+                <p><strong>Primary Operator Mod:</strong> {{ class_data["Primary Operator Mod"] }}</p>
+            {% endif %}
+        {% endif %}
 
         <p><strong>Secondary Weapon:</strong> {{ class_data["Secondary Weapon"] }}</p>
 
-        <p><strong>Secondary Optic:</strong> {{ class_data["Secondary Optic"] }}</p>
+        {% if class_data["Secondary Weapon"] %}
+            <img src="{{ url_for('static', filename='weapon-images/' + class_data["Secondary Weapon"] + '.webp') }}" alt="{{ class_data["Secondary Weapon"] }}" style="width:250px;height:auto;">
 
-        <p><strong>Secondary Attachments:</strong></p>
+            <p><strong>Secondary Optic:</strong> {{ class_data["Secondary Optic"] }}</p>
+
+            <p><strong>Secondary Attachments:</strong></p>
+            <ul>
+                {% for attachment in class_data["Secondary Attachments"] %}
+                    <li>{{ attachment }}</li>
+                {% endfor %}
+            </ul>
+
+            {% if class_data["Secondary Operator Mod"] %}
+                <p><strong>Secondary Operator Mod:</strong> {{ class_data["Secondary Operator Mod"] }}</p>
+            {% endif %}
+        {% endif %}
+
+        <p><strong>Perk 1:</strong></p>
         <ul>
-            {% for attachment in class_data["Secondary Attachments"] %}
-                <li>{{ attachment }}</li>
+            {% for perk1 in class_data["Perk 1"] %}
+                <li>{{ perk1 }}</li>
+                {% if perk1 %}
+                    <img src="{{ url_for('static', filename='perk-images/' + perk1 + '.webp') }}" alt="{{ perk1 }}" style="width:100px;height:auto;">
+                {% endif %}
             {% endfor %}
         </ul>
 
-        <p><strong>Perk 1:</strong> {{ class_data["Perk 1"] }}</p>
-        <p><strong>Perk 2:</strong> {{ class_data["Perk 2"] }}</p>
-        <p><strong>Perk 3:</strong> {{ class_data["Perk 3"] }}</p>
+        <p><strong>Perk 2:</strong></p>
+        <ul>
+            {% for perk2 in class_data["Perk 2"] %}
+                <li>{{ perk2 }}</li>
+                {% if perk2 %}
+                    <img src="{{ url_for('static', filename='perk-images/' + perk2 + '.webp') }}" alt="{{ perk2 }}" style="width:100px;height:auto;">
+                {% endif %}
+            {% endfor %}
+        </ul>
 
-        <p><strong>Gear:</strong> {{ class_data["Gear"] }}</p>
+        <p><strong>Perk 3:</strong></p>
+        <ul>
+            {% for perk3 in class_data["Perk 3"] %}
+                <li>{{ perk3 }}</li>
+                {% if perk3 %}
+                    <img src="{{ url_for('static', filename='perk-images/' + perk3 + '.webp') }}" alt="{{ perk3 }}" style="width:100px;height:auto;">
+                {% endif %}
+            {% endfor %}
+        </ul>
 
-        <p><strong>Equipment:</strong> {{ class_data["Equipment"] }}</p>
+        <p><strong>Gear:</strong> {% for gear in class_data["Gear"] %} {{ gear }} {% endfor %}</p>
+        {% if class_data["Gear"] %}
+            {% for gear in class_data["Gear"] %}
+                <img src="{{ url_for('static', filename='gear-images/' + gear + '.webp') }}" alt="{{ gear }}" style="width:100px;height:auto;">
+            {% endfor %}
+        {% endif %}
+
+        <p><strong>Equipment:</strong></p>
+        <ul>
+            {% for equipment in class_data["Equipment"] %}
+                <li>{{ equipment }}</li>
+                {% if equipment %}
+                    <img src="{{ url_for('static', filename='equipment-images/' + equipment + '.webp') }}" alt="{{ equipment }}" style="width:100px;height:auto;">
+                {% endif %}
+            {% endfor %}
+        </ul>
 
         <p><strong>Wildcards:</strong></p>
         <ul>
             {% for wildcard in class_data["Wildcards"] %}
                 <li>{{ wildcard }}</li>
+                {% if wildcard %}
+                    <img src="{{ url_for('static', filename='wildcard-images/' + wildcard + '.webp') }}" alt="{{ wildcard }}" style="width:100px;height:auto;">
+                {% endif %}
             {% endfor %}
         </ul>
 
         <p><strong>Specialist:</strong> {{ class_data["Specialist"] }}</p>
+        <img src="{{ url_for('static', filename='specialist-images/' + class_data["Specialist"] + '.webp') }}" alt="{{ class_data["Specialist"] }}" style="width:100px;height:auto;">
 
         <p><strong>Scorestreaks:</strong></p>
         <ul>
             {% for streak in class_data["Scorestreaks"] %}
                 <li>{{ streak }}</li>
+                <img src="{{ url_for('static', filename='scorestreak-images/' + streak + '.webp') }}" alt="{{ streak }}" style="width:100px;height:auto;">
             {% endfor %}
         </ul>
     </div>
