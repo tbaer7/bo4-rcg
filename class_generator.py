@@ -489,7 +489,7 @@ class rcg:
         for wildcard in chosenWildcards:
             method_name = wildcard_methods[wildcard]
             method = getattr(rcg, method_name)
-            result = method()
+            result = method(self)
 
         self.wildcards = chosenWildcards
         return self.wildcards
